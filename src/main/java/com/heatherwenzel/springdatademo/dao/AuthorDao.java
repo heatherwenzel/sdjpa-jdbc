@@ -6,10 +6,12 @@ public interface AuthorDao {
 
     Author getById(Long id);
 
-    Author getByName(String firstName, String lastName);
+    Author findByName(String firstName, String lastName);
 
     Author saveAuthor(Author author);
 
     Author updateAuthor(Author author);
+
+    void deleteAuthorById(Long id);
 
 }

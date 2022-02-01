@@ -44,7 +44,7 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public Author getByName(String firstName, String lastName) {
+    public Author findByName(String firstName, String lastName) {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
@@ -133,6 +133,29 @@ public class AuthorDaoImpl implements AuthorDao {
         }
 
         return this.getById(author.getId());
+    }
+
+    @Override
+    public void deleteAuthorById(Long id) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = source.getConnection();
+            ps = connection.prepareStatement("DELETE from author where id = ?");
+
+            ps.setLong(1, id);
+            ps.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                closeAll(null, ps, connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void closeAll(ResultSet resultSet, PreparedStatement ps, Connection connection) throws SQLException {
